@@ -49,9 +49,13 @@ object MigratorCLI extends App {
       text s"Number of batches to process. Negative value means unbounded. (Default is ${MigratorConfig.empty.batchesMax})"
       action ((value, conf) => conf.copy(batchesMax = value)))
 
-    (opt[Unit]('i', "init-arango-db")
+    (opt[Boolean]('i', "init-arango-db")
       text s"Initialize Arango DB"
-      action ((value, conf) => conf.copy(initializeArangodb = true)))
+      action ((value, conf) => conf.copy(initializeArangodb = value)))
+
+    (opt[Boolean]('s', "stream-new-lineages")
+      text s"Migrate in parallel all new lineages that will arrive after start of this tool."
+      action ((value, conf) => conf.copy(streamNewLineages = value)))
 
     help("help").text("prints this usage text")
   }
